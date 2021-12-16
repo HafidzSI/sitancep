@@ -59,6 +59,7 @@ const lapor_cepat = ({navigation}) => {
 
       laporan.push(dataLaporan)
       .then((data) => {
+        setIsLoading(false)
           navigation.navigate("success_page")
       })
       .catch((error) => {
@@ -104,7 +105,7 @@ const lapor_cepat = ({navigation}) => {
         <View style={{ flex:1, backgroundColor: '#414865' }}>
             <View style={{ margin: 20 }}>
                 <Text style={{ color: '#ffffff', fontSize: 28, fontWeight: 'bold' }}>
-                    Laporan cepat
+                    Laporan cepat Jalan
                 </Text>
             </View>
 

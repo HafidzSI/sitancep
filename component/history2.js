@@ -1,10 +1,7 @@
-import React, {useEffect} from 'react'
+import React, {useEffect, useState} from 'react'
 import { StyleSheet, Text, View, Image, ScrollView, SafeAreaView, FlatList } from 'react-native'
 import { Card, ListItem, Button, Icon, Avatar } from 'react-native-elements'
 import FIREBASE from '../config/firebase'
-import { useState } from 'react/cjs/react.development';
-import storage from '@react-native-firebase/storage'
-
 
 const history2 = () => {
 
@@ -34,27 +31,31 @@ const history2 = () => {
         <View style={{ flex:1, backgroundColor: '#414865' }}>
             <View style={{ margin: 20 }}>
                 <Text style={{ color: '#ffffff', fontSize: 28, fontWeight: 'bold' }}>
-                    History Laporan
+                    History Data Laporan
                 </Text>
             </View>
 
-            <View style={{ flex: 1, backgroundColor: '#fcfffd', borderTopRightRadius: 40, }}>
-                    <Card containerStyle={{ borderTopRightRadius: 40, borderBottomLeftRadius: 40 }}>
+            <View style={{ flex: 1, backgroundColor: '#fcfffd' }}>
+                <ScrollView>
+                    <View style={{ paddingTop: 10, paddingBottom: 10 }}>
                         {
                             historyKey.map((key) => {
                                 return (
-                                    <ListItem key={key} bottomDivider>
-                                        <Avatar size="large" source={{ uri: history[key].gambar }} />
-                                        <ListItem.Content>
-                                            <ListItem.Title>Lokasi : {history[key].lokasi_jalan_rusak}</ListItem.Title>
-                                            <ListItem.Subtitle>Pelapor : {history[key].nama_pelapor}</ListItem.Subtitle>
-                                            <ListItem.Subtitle>Status : {history[key].status == 1 ? 'Dilaporkan' : 'Tidak dapat diproses'}</ListItem.Subtitle>
-                                        </ListItem.Content>
-                                    </ListItem>
+                                    <Card key={key} containerStyle={{ borderTopRightRadius: 40, borderBottomLeftRadius: 40 }}>
+                                        <ListItem bottomDivider>
+                                            <Avatar size="large" source={{ uri: history[key].gambar }} />
+                                            <ListItem.Content>
+                                                <ListItem.Title>Lokasi : {history[key].lokasi_jalan_rusak}</ListItem.Title>
+                                                <ListItem.Subtitle>Pelapor : {history[key].nama_pelapor}</ListItem.Subtitle>
+                                                <ListItem.Subtitle>Status : {history[key].status == 1 ? 'Dilaporkan' : 'Tidak dapat diproses'}</ListItem.Subtitle>
+                                            </ListItem.Content>
+                                        </ListItem>
+                                    </Card>
                                 )
                             })
                         }                        
-                    </Card>
+                    </View>
+                </ScrollView>
             </View>
         </View>
     )

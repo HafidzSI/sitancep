@@ -1,10 +1,9 @@
-import React, {createRef, useEffect} from 'react'
+import React, {createRef, useEffect, useState} from 'react'
 import { StyleSheet, Text, TextInput, TouchableOpacity, View, TouchableHighlight, Button, Image, TouchableWithoutFeedback, ActivityIndicator } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import ActionSheet from "react-native-actions-sheet";
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import { useState } from 'react/cjs/react.development';
+import {launchCamera} from 'react-native-image-picker';
 import FIREBASE from '../config/firebase'
 import storage from '@react-native-firebase/storage'
 import auth from '@react-native-firebase/auth'
@@ -53,18 +52,6 @@ const lapor = ({navigation}) => {
         });
     }
 
-    const uploadFoto = () => {
-        // try {
-        //     await FIREBASE.storage().ref(image.fileName).putFile(imageUri)
-        //     alert('berhasil')
-        // } catch (error) {
-        //     console.log(error)
-        // }
-
-        
-                
-    }
-
     const handlePostLaporan = () => {
         const laporan = FIREBASE.database().ref('Lapor');
         const reference = storage().ref(image.fileName)
@@ -97,6 +84,7 @@ const lapor = ({navigation}) => {
             
                     laporan.push(dataLaporan)
                     .then((data) => {
+                        setIsLoading(false)
                         navigation.navigate("success_page")
                     })
                     .catch((error) => {
@@ -107,106 +95,13 @@ const lapor = ({navigation}) => {
             }
         )
 
-        
-    
-        // await reference.putFile(imageUriUpload)
-                
-        // let formdata = new FormData();
-        // let date = new Date().getDate()
-        // let time = new Date().getSeconds()
-        // const data = {}
-
-        // data['nama_pelapor'] = nama
-        // data['alamat'] = tempatTinggal
-        // data['no_hp'] = noHP
-        // data['lokasi_jalan_rusak'] = alamatJalanRusak
-        // data['petunjuk_lokasi'] = petunjukLokasi
-        // data['status'] = '1'
-        
-        // const data = {
-        //     'nama_pelapor': nama,
-        //     'alamat': tempatTinggal,
-        //     'no_hp': noHP,
-        //     'lokasi_jalan_rusak': alamatJalanRusak,
-        //     'petunjuk_lokasi': petunjukLokasi,
-        //     'status': '1',
-        // }
-
-        // formdata.append('data',data)
-        // formdata.append('files.gambar',image, image.fileName)
-
-        // const postData = {
-        //     name: 'data',
-        //     data: JSON.stringify({
-        //         'nama_pelapor': nama,
-        //         'alamat': tempatTinggal,
-        //         'no_hp': noHP,
-        //         'lokasi_jalan_rusak': alamatJalanRusak,
-        //         'petunjuk_lokasi': petunjukLokasi,
-        //         'status': '1',
-        //     })
-        // }
-
-        // const postImage = {
-        //     name: 'files.gambar',
-        //     filename: image.fileName,
-        //     data: image
-        // }
-
-        // RNFetchBlob.fetch('POST', 'http://192.168.100.7:1337/lapors',{
-        //     'Content-Type': 'multipart/form-data',
-        // }, [postData, postImage])
-        // .then((res) => {
-        //     alert('success')
-        //     navigation.navigate("home")
-        // })
-        // .catch((error) => {
-        //     console.log(error)
-        // })
-
-        // axios
-        // .post('http://192.168.100.7:1337/lapors',data)
-        // .then(res => {
-        //     // handle success
-        //     console.log(res.data.id)
-        //     setIdLapor(res.data.id)
-        // }).catch(function (error) {
-        //     console.log(error);
-        // });
-
-        // const formUpload = new FormData()
-
-        // formUpload.append('files',image)
-        // formUpload.append('ref','lapor')
-        // formUpload.append('refId',id)
-        // formUpload.append('field','gambar')
-
-        // const formUpload = {
-        //     'files' : image,
-        //     'ref'   : 'lapor',
-        //     'refId' : idLapor,
-        //     'field' : 'gambar'
-        // }
-
-        // axios
-        // .post('http://192.168.100.7:1337/upload',formUpload, {
-        //     headers: { 'Content-Type': 'multipart/form-data' },
-        // })
-        // .then(res => {
-        //     alert("Data berhasil disimpan");
-        //     navigation.navigate("home")
-        // })
-        // .catch(error => {
-        //     console.log(error)
-        // })
-
     }
 
     return (
         <View style={{ flex:1, backgroundColor: '#414865', }}>
             <View style={{ margin: 20 }}>
                 <Text style={{ color: '#ffffff', fontSize: 28, fontWeight: 'bold' }}>
-                    Kirim laporan
+                    Kirim laporan Cepat
                 </Text>
             </View>
 
@@ -243,7 +138,7 @@ const lapor = ({navigation}) => {
                     <TextInput placeholder="Masukkan nama" value={petunjukLokasi} onChangeText={(value) => setPetunjukLokasi(value)} style={styles.textInput} />
                 </View>
 
-                <TouchableOpacity onPress={handlePostLaporan}>
+                <TouchableOpacity onPress={ () => { handlePostLaporan() }}>
                     <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.Kirim}>
                             <Text style={styles.textKirim}>Kirim</Text>
                     </LinearGradient>

@@ -45,7 +45,7 @@ class successPage extends Component {
     render(){
         return (
             <View style={styles.container}>
-                <LottieView source={require('../assets/success.json')} autoPlay loop />
+                <LottieView source={require('../assets/success.json')} autoPlay />
             </View>
         )
     }
